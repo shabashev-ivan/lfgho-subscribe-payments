@@ -102,7 +102,7 @@ export default function Subscriptions({createdCounter}: { createdCounter: number
                     paymentsRequired: Number(item.paymentsRequired),
                     id: item.id,
                 }
-            })
+            }).filter(item => item.paymentsRequired)
             setRows(rows)
             setLoading(false)
         });
