@@ -81,7 +81,6 @@ export default function Dashboard() {
                 <CssBaseline/>
                 <MuiAppBar position="relative">
                     <Toolbar>
-
                         <Typography
                             component="h1"
                             variant="h6"

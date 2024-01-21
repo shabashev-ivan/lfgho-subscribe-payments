@@ -97,7 +97,7 @@ export default function Subscriptions({createdCounter}: { createdCounter: number
                     recipient: item.recipient,
                     amount: Number(item.amount),
                     interval: intervalsMap[Number(item.interval)],
-                    lastPayment: new Date(),
+                    lastPayment: new Date(Number(item.lastPayment)),
                     completedPayments: Number(item.completedPayments),
                     paymentsRequired: Number(item.paymentsRequired),
                     id: item.id,
