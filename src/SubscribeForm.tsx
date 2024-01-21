@@ -37,7 +37,7 @@ export default function SubscribeForm(props: {
         setErcToken(event.target.value as string);
     };
 
-    const [address, setAddress] = React.useState('0xc4706925a486267d8be4eba61d9e30b8196cbd99');
+    const [address, setAddress] = React.useState('');
     const handleAddressChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         setAddress(event.target.value as string);
     };
