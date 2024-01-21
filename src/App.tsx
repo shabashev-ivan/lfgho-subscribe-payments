@@ -2,6 +2,8 @@ import React from 'react';
 import Auth from "./Auth";
 import {ConnectKitButton} from "connectkit";
 import Dashboard from './Dashboard';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 function App() {
     return (
@@ -11,6 +13,7 @@ function App() {
                     return isConnected ? <Dashboard/> : <Auth/>
                 }}
             </ConnectKitButton.Custom>
+            <ToastContainer />
         </div>
     );
 }

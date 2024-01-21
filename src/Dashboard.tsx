@@ -18,6 +18,7 @@ import {createSubscribeData} from "./interfaces";
 import {useState} from "react";
 import {prepareWriteContract, writeContract} from 'wagmi/actions'
 import {erc20ABI} from "@wagmi/core";
+import {Bounce, toast} from "react-toastify";
 
 
 const defaultTheme = createTheme();
@@ -31,9 +32,6 @@ export default function Dashboard() {
     ) => {
         setLoading(true)
         try {
-            console.log('АДРЕС ТОКЕНА: ', data.token)
-            console.log('КОМУ ТОКЕНЫ: ', data.recepient)
-            console.log('сколько апруваю: ', BigInt(data.amount))
             const configApprove = await prepareWriteContract({
                 address: `0x${data.token.split('0x')[1]}`,
                 abi: erc20ABI,
@@ -41,10 +39,6 @@ export default function Dashboard() {
                 args: [`0x${process.env.REACT_APP_REC_TOKEN.split('0x')[1]}`, BigInt(data.amount * data.times)]
             });
             await writeContract(configApprove);
-            console.log('АДРЕС нашего контракта: ', process.env.REACT_APP_REC_TOKEN)
-            console.log('КАКОЙ ТОКЕН: ', data.token)
-            console.log('ПОЛУЧАТЕЛЬ: ', BigInt(data.recepient))
-            console.log('SKOLKO: ', BigInt(data.amount))
             const configSubscribe = await prepareWriteContract({
                 address: `0x${process.env.REACT_APP_REC_TOKEN.split('0x')[1]}`,
                 abi: recABI,
@@ -60,6 +54,18 @@ export default function Dashboard() {
             await writeContract(configSubscribe);
             setCounter(createdCounter + 1)
         } catch (e) {
+            toast('Insufficient allowance. Maybe not enough tokens for payments', {
+                position: 'top-right',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: 'light',
+                type: 'error',
+                transition: Bounce,
+            });
             console.error(e)
         }
         setLoading(false)
@@ -75,6 +81,7 @@ export default function Dashboard() {
                 <CssBaseline/>
                 <MuiAppBar position="relative">
                     <Toolbar>
+
                         <Typography
                             component="h1"
                             variant="h6"
