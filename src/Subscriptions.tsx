@@ -22,6 +22,7 @@ interface Subscription {
     completedPayments: number,
     paymentsRequired: number,
     lastPayment: Date,
+    id: bigint,
 }
 
 const intervalsMap: Record<number, string> = {
@@ -32,6 +33,10 @@ const intervalsMap: Record<number, string> = {
 
 export default function Subscriptions() {
     const [rows, setRows] = useState<Subscription[]>([])
+
+    const cancelSubscribe = (id: BigInt) => {
+        console.log('Cancel subscribe: ', id)
+    }
 
     const {address} = useAccount()
     const [subscriptionIds, setSubscriptionsIds] = useState<bigint[]>([])
@@ -54,15 +59,17 @@ export default function Subscriptions() {
     }, [address])
 
     useEffect(() => {
-        const promRes = Promise.all((subscriptionIds as unknown as bigint[]).map((id: bigint) => {
-            console.log('GET ID: ', id)
-            return readContract({
-                ...config,
-                address: `0x${process.env.REACT_APP_REC_TOKEN.split('0x')[1]}`,
-                abi: recABI,
-                functionName: 'getSubscription',
-                args: [id],
-            })
+        const promRes = Promise.all((subscriptionIds as unknown as bigint[]).map(async (id: bigint) => {
+            return {
+                ...await readContract({
+                    ...config,
+                    address: `0x${process.env.REACT_APP_REC_TOKEN.split('0x')[1]}`,
+                    abi: recABI,
+                    functionName: 'getSubscription',
+                    args: [id],
+                }),
+                id,
+            }
         }))
         promRes.then(res => {
             const rows: Subscription[] = res.map(item => {
@@ -74,6 +81,7 @@ export default function Subscriptions() {
                     lastPayment: new Date(),
                     completedPayments: Number(item.completedPayments),
                     paymentsRequired: Number(item.paymentsRequired),
+                    id: item.id,
                 }
             })
             setRows(rows)
@@ -103,9 +111,11 @@ export default function Subscriptions() {
                             <TableCell>{row.interval}</TableCell>
                             <TableCell>{row.amount}</TableCell>
                             <TableCell>{row.completedPayments}/{row.paymentsRequired}</TableCell>
-                            <TableCell><IconButton aria-label="delete">
-                                <DeleteIcon/>
-                            </IconButton></TableCell>
+                            <TableCell onClick={() => cancelSubscribe(row.id)}>
+                                <IconButton aria-label="delete">
+                                    <DeleteIcon/>
+                                </IconButton>
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

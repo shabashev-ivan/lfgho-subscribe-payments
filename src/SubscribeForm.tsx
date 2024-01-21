@@ -85,19 +85,19 @@ export default function SubscribeForm(props: {
                         onChange={handleTokenChange}
                     >
                         <MenuItem value={'0x9b1c5dedc56ca19336ea8659c4f3ed81d837af07'}>Test Token</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
+                        <MenuItem value={'0xcbe9771ed31e761b744d3cb9ef78a1f32dd99211'}>GHO Görli Token</MenuItem>
+                        <MenuItem value={'0xd77b79be3e85351ff0cbe78f1b58cf8d1064047c'}>DAI Görli Token</MenuItem>
                     </Select>
                 </FormControl>
             </Grid>
             <Grid item xs={12} sm={4}>
                 <FormControl fullWidth>
-                    <InputLabel id="interval-label">Period</InputLabel>
+                    <InputLabel id="interval-label">Interval</InputLabel>
                     <Select
                         labelId="interval-label"
                         id="interval-select"
                         value={String(interval)}
-                        label="ERC-20 Token"
+                        label="Payment interval"
                         onChange={handleIntervalChange}
                     >
                         <MenuItem value={86400}>Every day</MenuItem>
