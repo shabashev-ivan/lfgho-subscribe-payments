@@ -66,7 +66,11 @@ export default function Subscriptions({createdCounter}: { createdCounter: number
             args: [id]
         });
         await writeContract(configCancel);
-        loadSubscriptions()
+        setSubscriptionsIds(
+            subscriptionIds.filter(item => {
+                return item !== id
+            })
+        )
     }
 
     useEffect(() => {

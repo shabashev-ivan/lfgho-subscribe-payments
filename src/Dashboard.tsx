@@ -31,13 +31,20 @@ export default function Dashboard() {
     ) => {
         setLoading(true)
         try {
+            console.log('АДРЕС ТОКЕНА: ', data.token)
+            console.log('КОМУ ТОКЕНЫ: ', data.recepient)
+            console.log('сколько апруваю: ', BigInt(data.amount))
             const configApprove = await prepareWriteContract({
                 address: `0x${data.token.split('0x')[1]}`,
                 abi: erc20ABI,
                 functionName: 'approve',
-                args: [`0x${data.recepient.split('0x')[1]}`, BigInt(data.amount)]
+                args: [`0x${process.env.REACT_APP_REC_TOKEN.split('0x')[1]}`, BigInt(data.amount * data.times)]
             });
             await writeContract(configApprove);
+            console.log('АДРЕС нашего контракта: ', process.env.REACT_APP_REC_TOKEN)
+            console.log('КАКОЙ ТОКЕН: ', data.token)
+            console.log('ПОЛУЧАТЕЛЬ: ', BigInt(data.recepient))
+            console.log('SKOLKO: ', BigInt(data.amount))
             const configSubscribe = await prepareWriteContract({
                 address: `0x${process.env.REACT_APP_REC_TOKEN.split('0x')[1]}`,
                 abi: recABI,

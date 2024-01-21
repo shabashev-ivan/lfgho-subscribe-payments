@@ -226,7 +226,7 @@ export default [
                 "type": "address"
             }
         ],
-        "name": "getUserSubscriptions",
+        "name": "getSubscriptionsToAddress",
         "outputs": [
             {
                 "internalType": "uint256[]",
@@ -238,13 +238,19 @@ export default [
         "type": "function"
     },
     {
-        "inputs": [],
-        "name": "nextSubscriptionId",
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_address",
+                "type": "address"
+            }
+        ],
+        "name": "getUserSubscriptions",
         "outputs": [
             {
-                "internalType": "uint256",
+                "internalType": "uint256[]",
                 "name": "",
-                "type": "uint256"
+                "type": "uint256[]"
             }
         ],
         "stateMutability": "view",
