@@ -24,12 +24,12 @@ const defaultTheme = createTheme();
 
 export default function Dashboard() {
     const [isLoading, setLoading] = useState(false)
+    const [createdCounter, setCounter] = useState(0)
 
     const createSubscribe = async (
         data: createSubscribeData,
     ) => {
         setLoading(true)
-        console.log(`0x${process.env.REACT_APP_REC_TOKEN}`)
         try {
             const configApprove = await prepareWriteContract({
                 address: `0x${data.token.split('0x')[1]}`,
@@ -51,6 +51,7 @@ export default function Dashboard() {
                 ]
             });
             await writeContract(configSubscribe);
+            setCounter(createdCounter + 1)
         } catch (e) {
             console.error(e)
         }
@@ -107,7 +108,7 @@ export default function Dashboard() {
                         </Typography>
                         <SubscribeForm handleCreate={handleCreate} isLoading={isLoading}/>
                     </Box>
-                    <Subscriptions/>
+                    <Subscriptions createdCounter={createdCounter}/>
                 </Container>
             </Box>
         </ThemeProvider>

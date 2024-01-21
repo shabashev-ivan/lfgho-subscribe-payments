@@ -2,7 +2,7 @@
   "name": "ethglobal",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://shabashev-ivan.github.io/lfgho-subscribe-payments",
+  "homepage": "https://shabashev-ivan.github.io/lfgho-subscribe-payments",
   "dependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",

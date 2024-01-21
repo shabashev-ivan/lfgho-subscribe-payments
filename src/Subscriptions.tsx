@@ -4,7 +4,7 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import {IconButton, Paper, TableContainer} from '@mui/material';
+import {CircularProgress, IconButton, Paper, TableContainer} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Typography from "@mui/material/Typography";
 
@@ -13,6 +13,7 @@ import config from "./ethConfig";
 import recABI from './abi/rec'
 import {useEffect, useState} from "react";
 import {readContract} from '@wagmi/core'
+import {prepareWriteContract, writeContract} from "wagmi/actions";
 
 interface Subscription {
     tokenAddress: string,
@@ -31,17 +32,16 @@ const intervalsMap: Record<number, string> = {
     2592000: 'Every month',
 }
 
-export default function Subscriptions() {
+export default function Subscriptions({createdCounter}: { createdCounter: number }) {
+    const [isLoading, setLoading] = useState(true)
     const [rows, setRows] = useState<Subscription[]>([])
-
-    const cancelSubscribe = (id: BigInt) => {
-        console.log('Cancel subscribe: ', id)
-    }
 
     const {address} = useAccount()
     const [subscriptionIds, setSubscriptionsIds] = useState<bigint[]>([])
     if (!address) throw new Error('No account')
-    useEffect(() => {
+
+    const loadSubscriptions = () => {
+        setLoading(true)
         readContract({
             address: `0x${process.env.REACT_APP_REC_TOKEN.split('0x')[1]}`,
             abi: recABI,
@@ -56,7 +56,22 @@ export default function Subscriptions() {
                 setSubscriptionsIds(res as unknown as bigint[]);
             }
         })
-    }, [address])
+    }
+
+    const cancelSubscribe = async (id: bigint) => {
+        const configCancel = await prepareWriteContract({
+            address: `0x${process.env.REACT_APP_REC_TOKEN.split('0x')[1]}`,
+            abi: recABI,
+            functionName: 'cancelSubscription',
+            args: [id]
+        });
+        await writeContract(configCancel);
+        loadSubscriptions()
+    }
+
+    useEffect(() => {
+        loadSubscriptions()
+    }, [address, createdCounter])
 
     useEffect(() => {
         const promRes = Promise.all((subscriptionIds as unknown as bigint[]).map(async (id: bigint) => {
@@ -85,6 +100,7 @@ export default function Subscriptions() {
                 }
             })
             setRows(rows)
+            setLoading(false)
         });
     }, [subscriptionIds])
     return (
@@ -103,22 +119,32 @@ export default function Subscriptions() {
                         <TableCell>Remove</TableCell>
                     </TableRow>
                 </TableHead>
-                <TableBody>
-                    {rows.map((row, index) => (
-                        <TableRow key={index}>
-                            <TableCell>{String(row.lastPayment.toDateString())}</TableCell>
-                            <TableCell>{row.recipient}</TableCell>
-                            <TableCell>{row.interval}</TableCell>
-                            <TableCell>{row.amount}</TableCell>
-                            <TableCell>{row.completedPayments}/{row.paymentsRequired}</TableCell>
-                            <TableCell onClick={() => cancelSubscribe(row.id)}>
-                                <IconButton aria-label="delete">
-                                    <DeleteIcon/>
-                                </IconButton>
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
+                {
+                    isLoading ? (
+                        <TableBody>
+                            <TableRow>
+                                <TableCell><CircularProgress/></TableCell>
+                            </TableRow>
+                        </TableBody>
+                    ) : (
+                        <TableBody>
+                            {rows.map((row, index) => (
+                                <TableRow key={index}>
+                                    <TableCell>{String(row.lastPayment.toDateString())}</TableCell>
+                                    <TableCell>{row.recipient}</TableCell>
+                                    <TableCell>{row.interval}</TableCell>
+                                    <TableCell>{row.amount}</TableCell>
+                                    <TableCell>{row.completedPayments}/{row.paymentsRequired}</TableCell>
+                                    <TableCell onClick={() => cancelSubscribe(row.id)}>
+                                        <IconButton aria-label="delete">
+                                            <DeleteIcon/>
+                                        </IconButton>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    )
+                }
             </Table>
         </TableContainer>
     );
