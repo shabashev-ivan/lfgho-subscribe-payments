@@ -78,6 +78,10 @@ export default function Subscriptions({createdCounter}: { createdCounter: number
     }, [address, createdCounter])
 
     useEffect(() => {
+        loadSubscriptions()
+    }, [])
+
+    useEffect(() => {
         const promRes = Promise.all((subscriptionIds as unknown as bigint[]).map(async (id: bigint) => {
             return {
                 ...await readContract({
