@@ -1,16 +1,16 @@
 import React from 'react';
 import Auth from "./Auth";
 import {ConnectKitButton} from "connectkit";
+import Dashboard from './dashboard';
 
 function App() {
     return (
         <div className="App">
             <ConnectKitButton.Custom>
                 {({isConnected}) => {
-                    return isConnected ? 'logged' : <Auth/>
+                    return isConnected ? <Dashboard/> : <Auth/>
                 }}
             </ConnectKitButton.Custom>
-            <Auth></Auth>
         </div>
     );
 }

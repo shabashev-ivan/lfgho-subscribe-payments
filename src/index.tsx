@@ -4,7 +4,7 @@ import App from './App';
 import CssBaseline from '@mui/material/CssBaseline';
 import {WagmiConfig} from "wagmi";
 import {ConnectKitProvider} from "connectkit";
-import config from "./ethCofing";
+import config from "./ethConfig";
 
 
 const root = ReactDOM.createRoot(
