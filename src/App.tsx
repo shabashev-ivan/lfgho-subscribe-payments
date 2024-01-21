@@ -1,7 +1,7 @@
 import React from 'react';
 import Auth from "./Auth";
 import {ConnectKitButton} from "connectkit";
-import Dashboard from './dashboard';
+import Dashboard from './Dashboard';
 
 function App() {
     return (
