@@ -1,6 +1,7 @@
 {
   "files": {
-    "main.js": "/lfgho-subscribe-payments/static/js/main.95e000fe.js",
+    "main.css": "/lfgho-subscribe-payments/static/css/main.f029a054.css",
+    "main.js": "/lfgho-subscribe-payments/static/js/main.bcd100c5.js",
     "static/js/439.406e5b62.chunk.js": "/lfgho-subscribe-payments/static/js/439.406e5b62.chunk.js",
     "static/js/756.be91b71f.chunk.js": "/lfgho-subscribe-payments/static/js/756.be91b71f.chunk.js",
     "static/js/473.5bf5de56.chunk.js": "/lfgho-subscribe-payments/static/js/473.5bf5de56.chunk.js",
@@ -11,7 +12,8 @@
     "static/js/95.31a8fa1d.chunk.js": "/lfgho-subscribe-payments/static/js/95.31a8fa1d.chunk.js",
     "static/js/419.80588763.chunk.js": "/lfgho-subscribe-payments/static/js/419.80588763.chunk.js",
     "index.html": "/lfgho-subscribe-payments/index.html",
-    "main.95e000fe.js.map": "/lfgho-subscribe-payments/static/js/main.95e000fe.js.map",
+    "main.f029a054.css.map": "/lfgho-subscribe-payments/static/css/main.f029a054.css.map",
+    "main.bcd100c5.js.map": "/lfgho-subscribe-payments/static/js/main.bcd100c5.js.map",
     "756.be91b71f.chunk.js.map": "/lfgho-subscribe-payments/static/js/756.be91b71f.chunk.js.map",
     "473.5bf5de56.chunk.js.map": "/lfgho-subscribe-payments/static/js/473.5bf5de56.chunk.js.map",
     "458.c727c02a.chunk.js.map": "/lfgho-subscribe-payments/static/js/458.c727c02a.chunk.js.map",
@@ -22,6 +24,7 @@
     "419.80588763.chunk.js.map": "/lfgho-subscribe-payments/static/js/419.80588763.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.95e000fe.js"
+    "static/css/main.f029a054.css",
+    "static/js/main.bcd100c5.js"
   ]
 }
